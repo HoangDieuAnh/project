@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      <!--
+      <form id="edit_event_1" class="edit_event" method="post" action="/events/1" accept-charset="UTF-8"
+
+      form_for :user, :url => {:controller => 'user', :action => 'edit'}, role: 'form' do |f|
+      <form method="post" action="/edit" accept-charset="UTF-8"
+      -->
+      <% authenticate_user %>
+      <%= form_for(@current_user) do |f| %>
+
+          <% if @current_user.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@current_user.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+                <ul>
+                  <% @current_user.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
+
+          <h2>Edit Account Details</h2>
+          <hr class="colorgraph">
+          <div class="form-group">
+            <%= f.text_field :first_name, class: "form-control input-lg", value: @current_user.first_name, placeholder: "First Name" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :middle_name, class: "form-control input-lg", value: @current_user.middle_name, placeholder: "Middle Name" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :last_name, class: "form-control input-lg", value: @current_user.last_name, placeholder: "Last Name" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :email, class: "form-control input-lg", value: @current_user.email, placeholder: "Email" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :phone, class: "form-control input-lg", value: @current_user.phone, placeholder: "Phone" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :mobile, class: "form-control input-lg", value: @current_user.mobile, placeholder: "Mobile" %>
+          </div>
+          <!--
+          <div class="form-group">
+            <%= f.password_field :password, class: 'form-control input-lg', placeholder: 'Enter old password (todo)' %>
+          </div>
+          <div class="form-group">
+            <%= f.password_field :password, class: 'form-control input-lg', placeholder: 'New Password' %>
+          </div>
+          <div class="form-group">
+            <%= f.password_field :password_confirmation, class: 'form-control input-lg', placeholder: 'Confirm New Password' %>
+          </div>
+          -->
+          <hr class="colorgraph">
+          <div class="row">
+            <div class="col-xs-6 col-md-6"><%= f.submit 'Change Details' , class: "btn btn-primary btn-block btn-lg" %></div>
+          </div>
+      <%end%>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+<div class="row">
+	<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+		<%=nested_form_for @event, :html=>{:multipart=>true}, role: 'form' do |f| %>
+      <h2>Get excited!!!<small>It's just for you</small></h2>
+      <hr class="colorgraph">
+  <%= render "#{@event.current_step}", :f => f %>
+  <p><%= f.submit "Continue",class: "btn btn-primary btn-block btn-lg"%></p>
+  <p><%= f.submit "Back", :name => "back_button" unless @event.first_step? %></p>
+     <hr class="colorgraph">
+<% end %>
+
+<% if @event && @event.errors.any? %>
+    <ul class="Signup_Errors">
+    <% for message_error in @event.errors.full_messages %>
+      <li>* <%= message_error %></li>
+    <% end %>
+    </ul>
+<%end%>
+  </div>
+        
+</div>
+</div>
