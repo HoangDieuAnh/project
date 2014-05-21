@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+    default_scope {order('updated_at DESC')}
 	has_many :event_pictures, :dependent => :destroy
   has_many :tickets, :foreign_key => 'event_id', :dependent => :destroy
 		accepts_nested_attributes_for :event_pictures, :tickets

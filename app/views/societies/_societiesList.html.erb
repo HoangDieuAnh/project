@@ -1,0 +1,52 @@
+<hr class="colorgraph">
+      <% societies.each do |society|%>
+        <div class="row">
+             
+            <div class="col-lg-7 col-md-7">
+                <a href="#">
+                    <img class="img-responsive" src="/data/clubImage/club.jpg" alt="">
+                </a>
+            </div>
+            
+            <div class="col-lg-5 col-md-5">
+                <h3><%= society.name %></h3>
+                <h4><small>This club is affiliated by UMSU<small></h4>
+                <p class="text-primary">Curious? Want to know more? Want to get involve? Visit <a href="<%=society.website%>"> our web pages</a> for more information</p>
+                <p><%=truncate(society.description, length: 200){link_to "Continue", society}%><p>
+                <%= link_to 'More >>', society, class: "btn btn-primary"%>
+                <%if session[:user_id]==society.user_id && session[:user_id]!=nil%>
+                 <%= link_to 'Edit', edit_society_path(society), class: 'btn btn-primary'  %>
+                <%= link_to 'Destroy', society, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+                <%end%>
+            </div>
+
+        </div>
+
+
+        <hr class="colorgraph">
+        <%end%>
+
+        <div class="row text-center">
+
+            <div class="col-lg-12">
+                <ul class="pagination">
+                    <li><a href="#">&laquo;</a>
+                    </li>
+                    <li class="active"><a href="#">1</a>
+                    </li>
+                    <li><a href="#">2</a>
+                    </li>
+                    <li><a href="#">3</a>
+                    </li>
+                    <li><a href="#">4</a>
+                    </li>
+                    <li><a href="#">5</a>
+                    </li>
+                    <li><a href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr>

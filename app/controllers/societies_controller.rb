@@ -88,7 +88,7 @@ class SocietiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def society_params
-      params.require(:society).permit(:name, :regNum, :website, :approved, :relationships_attributes, :user_id, :relationships_attributes=>
+      params.require(:society).permit(:name, :regNum, :description, :website, :approved, :relationships_attributes, :user_id, :relationships_attributes=>
         [:position,:firstname, :middlename, :lastname, :phone, :email, :society_id], :user_attributes =>[:name, :first_name, :middle_name, 
           :last_name, :email, :password,:password_confirmation])
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140521101439) do
+ActiveRecord::Schema.define(version: 20140521183821) do
 
   create_table "event_pictures", force: true do |t|
     t.integer  "event_id"
@@ -59,11 +59,12 @@ ActiveRecord::Schema.define(version: 20140521101439) do
   create_table "societies", force: true do |t|
     t.string   "name"
     t.integer  "regNum"
-    t.integer  "website"
+    t.string   "website"
     t.boolean  "approved"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.text     "description"
   end
 
   add_index "societies", ["user_id"], name: "index_societies_on_user_id"

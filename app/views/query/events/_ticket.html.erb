@@ -1,0 +1,29 @@
+<div class="form-group">
+        <%=f.fields_for :tickets, @event.tickets_for_event do |p|%>
+              <div class="form-group">
+        <label>Ticket details</label>
+        <%= p.number_field :price, class: 'form-control input-lg', placeholder:"Price"%>
+        <span class="input-group-addon">$</span>
+</div>
+      <div class="form-group">
+
+        <%= p.number_field :maxnumber, class: 'form-control input-lg', placeholder:"Number of tickets available"%>
+</div>
+      <div class="form-group">
+
+        <label>Sale starts on: <label>
+        
+        <%= p.date_field :startdate, class: 'form-control input-lg'%>
+        </div>
+              <div class="form-group">
+
+        <label>And ends on: <label>
+        <%= p.date_field :closedate, class: 'form-control input-lg'%>
+</div>
+              <div class="form-group">
+
+        <%= p.text_area :description, rows:'7', class: 'form-control input-lg', placeholder:"Description"%>
+</div>
+        <%= p.hidden_field :event_id,:value=> @event.id %>
+        <%end%>
+        </div>

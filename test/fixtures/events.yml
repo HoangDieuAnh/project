@@ -1,25 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: 
-  type: 
-  description: 
-  website: 
-  date: 2014-05-18
-  startTime: 2014-05-18 12:14:28
-  endTime: 2014-05-18 12:14:28
-  banner: 
-  image2: 
-  image3: 
+  title: MyString
+  eventType: MyString
+  eventDate: 2014-05-19
+  eventTime: 2014-05-19 20:15:15
+  venue: MyString
+  description: MyText
 
 two:
-  name: 
-  type: 
-  description: 
-  website: 
-  date: 2014-05-18
-  startTime: 2014-05-18 12:14:28
-  endTime: 2014-05-18 12:14:28
-  banner: 
-  image2: 
-  image3: 
+  title: MyString
+  eventType: MyString
+  eventDate: 2014-05-19
+  eventTime: 2014-05-19 20:15:15
+  venue: MyString
+  description: MyText

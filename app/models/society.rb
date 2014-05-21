@@ -1,4 +1,5 @@
 class Society < ActiveRecord::Base
+  default_scope {order('updated_at DESC')}
 	has_many :events, dependent: :destroy
 	has_many :relationships,  dependent: :destroy
 	belongs_to :user
