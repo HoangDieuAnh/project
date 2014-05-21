@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140521061613) do
+ActiveRecord::Schema.define(version: 20140521101439) do
 
   create_table "event_pictures", force: true do |t|
     t.integer  "event_id"
@@ -41,6 +41,21 @@ ActiveRecord::Schema.define(version: 20140521061613) do
 
   add_index "events", ["society_id"], name: "index_events_on_society_id"
 
+  create_table "relationships", force: true do |t|
+    t.integer  "society_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "position"
+    t.string   "firstname"
+    t.string   "middlename"
+    t.string   "lastname"
+    t.string   "email"
+    t.integer  "phone"
+  end
+
+  add_index "relationships", ["society_id"], name: "index_relationships_on_society_id"
+
   create_table "societies", force: true do |t|
     t.string   "name"
     t.integer  "regNum"
@@ -48,7 +63,10 @@ ActiveRecord::Schema.define(version: 20140521061613) do
     t.boolean  "approved"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "societies", ["user_id"], name: "index_societies_on_user_id"
 
   create_table "tickets", force: true do |t|
     t.integer  "price"

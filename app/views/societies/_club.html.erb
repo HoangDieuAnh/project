@@ -1,0 +1,39 @@
+<div class="form-group">
+        <%= s.text_field :name, class: "form-control input-lg", placeholder: 'Society Name' %>
+      </div>
+      <div class="form-group">
+        <%= s.text_field :regNum, class: "form-control input-lg", placeholder: 'Register number' %>
+      </div>
+      <div class="form-group">
+        <%= s.url_field :website, class: "form-control input-lg", placeholder: 'Website' %>
+      </div>
+      <div class="form-group">
+      	<%=s.fields_for :user do |f|%>
+      	<label>Admin details</label>
+        <%= f.text_field :first_name, class: "form-control input-lg", placeholder: 'First Name' %>
+      </div>
+      <div class="form-group">
+        <%= f.text_field :middle_name, class: "form-control input-lg", placeholder: 'Middle Name' %>
+      </div>
+      <div class="form-group">
+        <%= f.text_field :last_name, class: "form-control input-lg", placeholder: 'Last Name' %>
+      </div>
+      <div class="form-group">
+        <%= f.email_field :email, class: "form-control input-lg", placeholder: 'Email' %>
+      </div>
+      <div class="form-group">
+        <%= f.phone_field :phone, class: "form-control input-lg", placeholder: 'Phone' %>
+      </div>
+      <div class="form-group">
+        <%= f.phone_field :mobile, class: "form-control input-lg", placeholder: 'Mobile' %>
+      </div>
+      <div class="form-group">
+        <%= f.text_field :name, class: 'form-control input-lg', placeholder: 'Username' %>
+      </div>
+      <div class="form-group">
+        <%= f.password_field :password, class: 'form-control input-lg', placeholder: 'Password' %>
+      </div>
+      <div class="form-group">
+        <%= f.password_field :password_confirmation, class: 'form-control input-lg', placeholder: 'Confirm password' %>
+      </div>
+      <%end%>

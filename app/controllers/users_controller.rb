@@ -38,7 +38,7 @@ def update
 end
 
 def user_params
-  params.require(:user).permit(:name, :first_name, :middle_name, :last_name, :email, :password, :salt, :encrypted_password)
+  params.require(:user).permit(:name, :first_name, :middle_name, :last_name, :email, :password, :salt, :password_confirmation)
 end
 
 end

@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 attr_accessor :password
+has_many :relationships, dependent: :destroy
+has_one :society
+accepts_nested_attributes_for :relationships
 #attr_accessible :username, :firstname, :middle_name, :last_name, :email, :password, :password_confirmation
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :name, :presence => true, :uniqueness => true, :length => { :in => 3..20 }

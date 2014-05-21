@@ -18,7 +18,11 @@ class SocietiesController < ApplicationController
 
   # GET /societies/new
   def new
-    @society = Society.new
+    session[:society_params] ||= {}
+    @society= Society.new(session[:society_params])
+    @society.current_step = session[:society_step]
+    @society.get_user
+
   end
 
   # GET /societies/1/edit
@@ -28,19 +32,30 @@ class SocietiesController < ApplicationController
   # POST /societies
   # POST /societies.json
   def create
-    @society = Society.new(society_params)
+    session[:society_params].deep_merge!(society_params) if society_params &&session[:society_params]
+    @society =Society.new(session[:society_params])
 
-    respond_to do |format|
-      if @society.save
-        format.html { redirect_to @society, notice: 'Society was successfully created.' }
-        format.json { render :show, status: :created, location: @society }
-      else
-        format.html { render :new }
-        format.json { render json: @society.errors, status: :unprocessable_entity }
+      @society.current_step = session[:society_step]
+
+      if @society.valid?
+        if params[:back_button]
+          @society.previous_step
+        elsif @society.last_step?
+          @society.save if @society.all_valid?
+        else
+          @society.next_step
+        end
+        session[:society_step] = @society.current_step
       end
-    end
+      if @society.new_record?
+        render "new"
+      else
+        session[:society_step] = session[:society_params] = nil
+        flash[:notice] = "Registration is pending, we will confirm as soon as possible!"
+        render 'show'
+      end
   end
-
+  
   # PATCH/PUT /societies/1
   # PATCH/PUT /societies/1.json
   def update
@@ -73,6 +88,8 @@ class SocietiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def society_params
-      params.require(:society).permit(:name, :regNum, :website, :approved)
+      params.require(:society).permit(:name, :regNum, :website, :approved, :relationships_attributes, :user_id, :relationships_attributes=>
+        [:position,:firstname, :middlename, :lastname, :phone, :email, :society_id], :user_attributes =>[:name, :first_name, :middle_name, 
+          :last_name, :email, :password,:password_confirmation])
     end
 end

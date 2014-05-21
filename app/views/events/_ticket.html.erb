@@ -1,12 +1,12 @@
 <div class="form-group">
         <%=f.fields_for :tickets, @event.tickets_for_event do |p|%>
               <div class="form-group">
-
+        <label>Ticket details</label>
         <%= p.number_field :price, class: 'form-control input-lg', placeholder:"Price"%>
 </div>
       <div class="form-group">
 
-        <%= p.number_field :maxnumber, class: 'form-control input-lg', placeholder:"Number of ticket available"%>
+        <%= p.number_field :maxnumber, class: 'form-control input-lg', placeholder:"Number of tickets available"%>
 </div>
       <div class="form-group">
 
