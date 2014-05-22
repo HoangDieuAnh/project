@@ -39,9 +39,14 @@ class Society < ActiveRecord::Base
     end
   end
 
-  def self.search(query)
-    where("name like ?", "%#{query}%")
+ def self.search(search)
+  if search
+    Event.where('name LIKE ? OR website LIKE ? OR description LIKE ?', 
+      "%#{search}%","%#{search}%","%#{search}%")
+  else
+    vent.all()
   end
+end
   def get_relationships
   	2.times { self.relationships.build }
        

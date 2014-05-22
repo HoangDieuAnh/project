@@ -10,7 +10,8 @@ class EventsController < ApplicationController
       @events = Event.all
     end
   end
-
+  # check if user is an admin of the event or not
+  
   # GET /events/1
   # GET /events/1.json
   def show

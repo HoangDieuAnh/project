@@ -1,0 +1,32 @@
+<hr class="colorgraph">
+      <% events.each do |event|%>
+        <div class="row">
+             
+            <div class="col-lg-7 col-md-7">
+                <a href="#">
+                    <img class="img-responsive" src="/data/eventImages/event.jpg" alt="">
+                </a>
+            </div>
+            
+            <div class="col-lg-5 col-md-5">
+                <h3><%= event.title%></h3>
+                <h4><small>Type: <%=event.eventType%><small></h4>
+               <h4><small>Date: <%=event.eventDate%><small></h4>
+                <h4><small>Location:<%=event.venue%><small></h4>
+
+                <p><%=truncate(event.description, length: 200){link_to "Continue", event_path(:id=> event.id)}%><p>
+                <%= link_to 'More >>', event, class: "btn btn-primary"%>
+                <% if event.admin(session[:user_id])%>
+
+                 <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary'  %>
+                <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %>
+            
+                <%end%>
+            </div>
+
+        </div>
+<hr class="colorgraph">
+<%end%>
+        
+
+        

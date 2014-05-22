@@ -13,7 +13,8 @@ class Event < ActiveRecord::Base
   def current_step
     @current_step || steps.first
   end
-  
+
+
   def steps
     %w[ pict ticket]
   end
@@ -50,9 +51,22 @@ class Event < ActiveRecord::Base
         self.tickets.build
      end
 
-  def self.search(query)
-    where("title like ? OR description LIKE ? OR eventType LIKE ?", "%#{query}%", "%#{query}%", "%#{query}%")
+def self.search(search)
+  if search
+    Event.where('title LIKE ? OR eventType LIKE ? OR eventDate LIKE ? OR venue LIKE ? OR eventTime LIKE ? OR description LIKE ?', 
+      "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%")
+  else
+    Event.all()
   end
 end
 
-  
+ def admin(user_id)
+    if user_id.nil?
+      societyID=Society.find_by user_id:user_id 
+      if societyID.present?
+        return societyID.id==self.society_id
+      end
+    return nil
+    end
+  end 
+end

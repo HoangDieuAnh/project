@@ -2,4 +2,7 @@
 
 <% if @societies.present? %>
  <%=render 'societies/societiesList', :societies => @societies %>
+ <%end%>
+ <% if @events.present? %>
+  <%=render 'events/eventList', :events => @events %>
 <% end %>
