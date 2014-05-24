@@ -1,34 +1,93 @@
-<p id="notice"><%= notice %></p>
+<%if @event.present? && @society.present?%>
+<div class="jumbotron">
+  <div class="row">
 
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
-</p>
+            <div class="col-md-6">
 
-<p>
-  <strong>Eventdate:</strong>
-  <%= @event.eventDate %>
-</p>
+                <img class="img-responsive" src="/data/eventImages/event2.jpeg">
+            </div>
+            <div class="col-md-6">
+                <h2>Welcome to <%=@event.title%></h2>
+                <hr class="colorgraph">
+                <h3><small>This event is hosted by <%=link_to @society.name, society_path(@society)%></small></h3>
+                    <p>Activity: <%=@event.eventType%></p>
+                    <p>Date: <%=@event.eventDate%></p>
+                    <p>Time: <%=@event.eventTime%></p>
+                    <p>Location: <%=@event.venue%></p>
+                   <% if @event.admin(session[:user_id])%>
 
-<p>
-  <strong>Eventtime:</strong>
-  <%= @event.eventTime %>
-</p>
+                 <%= link_to 'Edit', edit_event_path(@event), class: 'btn btn-success'  %>
+            
+                <%end%>
+               
+            </div>
 
-<p>
-  <strong>Venue:</strong>
-  <%= @event.venue %>
-</p>
+        </div>
+</div>
+<div class="col-md-6">
+<h1 class="text-success"> Description </h1>
+<p><%=@event.description%></p>
+</div>
+<div class="col-md-6">
+<div class="jumbotron">
+ <%if @ticket.present? %>
+ <h2>Ticket info
+  <% if @event.admin(session[:user_id])%>
 
-<p>
-  <strong>Event type:</strong>
-  <%= @event.eventType %>
-</p>
+  <%= link_to 'Edit', edit_ticket_path(@event), class: 'btn btn-success'  %>
+            
+  <%end%></h2>
+ <hr class="colorgraph">
+                          <p>Price:  $<%=@ticket.price%> each</p>
+                          <p>Amount available: <%=@available%> (you are allowed to reserve 4 tickets max)</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @event.description %>
-</p>
+                          <p>Open for sales from <%=@ticket.startdate%> to <%=@ticket.closedate%></p>
+                         <%if !@ticket.description.blank?%>
+                         <p class="text-primary">**<%=@ticket.description%></p>
+                         
+                       <%end%>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+                          <hr class="colorgraph">
+                          <% if flash[:notice] %>
+                        <div id="notice">
+                          <div class="alert alert-temp fade in alert-error">
+                          <%= flash[:notice] %>
+                        </div></div>
+                        <% end %>
+                      <%if session[:user_id].nil?%>
+                          <p class="text-danger">** Please log in to reserve</p>
+
+                      <%elsif !@available.blank?&&@available>0%>
+                          <%if booked(session[:user_id], @ticket.id) %>
+                               <p class="btn btn-primary btn-block btn-lg">Booked</p>
+                                <%else%>
+                           <%=form_for :reservation, :url=>{:controller=>'reservations', :action=>'create'}, role: 'form' do |f| %>
+
+                          <%=f.label "Number of tickets  "%>
+                         <%=f.select :amount, @available_to_buy.map { |value| [ value, value ] },  class: 'form-control' %>
+                          <%= f.hidden_field :ticket_id,:value=> @ticket.id %>
+                         <%= f.hidden_field :user_id,:value=> session[:user_id]%>
+                        
+                         <p><%= f.submit "Reserve",class: "btn btn-primary btn-block btn-lg"%></p>
+                          <%end%>
+                          <%end%>
+                       <%else%>
+                          <p class="btn btn-primary btn-block btn-lg">Sorry, no ticket available</p>
+                        <%end%>
+                           
+                   
+  <%else%>
+  <h2>Hurray!!!!No ticket needed</h2>
+  <%end%>
+
+</div>
+</div>
+
+
+
+
+<%else%>
+<% render "public/error" %>
+<%end%>
+
+

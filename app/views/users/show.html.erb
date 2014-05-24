@@ -1,49 +1,40 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, 'My Account') %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+<!--left-->
+<!--/left-->
+  
+  <!--center-->
+  <h1 class="text-success"> Recent activities</h1>
+  <div class="col-sm-9">
+     <%=render 'events/eventList', :events => @Allevents %>
+ <%= will_paginate @Allevents %>
+  </div><!--/center-->
 
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
+  <!--right-->
 
-<p>
-  <strong>Middle name:</strong>
-  <%= @user.middle_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @user.phone %>
-</p>
-
-<p>
-  <strong>Mobile:</strong>
-  <%= @user.mobile %>
-</p>
-
-<p>
-  <strong>Encrypted password:</strong>
-  <%= @user.encrypted_password %>
-</p>
-
-<p>
-  <strong>Salt:</strong>
-  <%= @user.salt %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+  <div class="col-sm-3">
+    <%=link_to "Change my info",edit_user_path(@user) %>
+        <h2>My tickets</h2>
+        <%if @events.present?%>
+  <% @events.each do |e|%>
+  <!--This works event if we have many ticket classes for an event( atm we only have 1 ticket class/event)-->
+  <%e.tickets.each do|ticket|%>
+  <% if find_related(ticket, @user.id)%>
+      <div class="panel panel-default">
+          <div class="panel-heading"><h4><%=e.title%></h4></div>
+          <div class="panel-body">
+            <p>Date : <%=e.eventDate%></p>
+            <p> Price: $<%=ticket.price%>/ticket</p>
+            <hr class="colorgraph">
+            <p>You booked <%=@reservation.amount%> tickets </p>
+            <p>Total Price: $<%=@reservation.amount*ticket.price%></p>
+             <div class="btn btn-warning"><%=link_to "Delete",:controller=>"reservations", :acion=>'destroy',:id=>@reservation.id, :user_id=>@user.id %></p></div>
+             </div>
+        </div>
+        <hr>
+        <%end%>
+  <%end%>
+  <%end%>
+  <!--should limit the amount of reservations that get displayed, will do it if have time-->
+  <%end%>
+</div>

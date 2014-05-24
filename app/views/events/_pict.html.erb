@@ -1,22 +1,24 @@
-
-
-    
+ 
+   
       <div class="form-group">
-        <%= f.text_field :title, class: 'form-control input-lg', placeholder: 'Title' %>
+        <%=f.label "Event title"%>
+        <%= f.text_field :title, class: 'form-control input-lg',maxlength: 100, placeholder: 'Title' %>
       </div>
       <div class="form-group">
-        <%= f.text_field :eventType, class: "form-control input-lg", placeholder: 'Type: Dance, coffee meeting, BBQ..' %>
+                <%=f.label "Event Type"%>
+
+        <%= f.text_field :eventType, class: "form-control input-lg",maxlength: 200,placeholder: 'Type: Dance, coffee meeting, BBQ..' %>
       </div>
       
        
           <div class="form-group">
             <label>Date</label>
-            <%= f.date_field :eventDate, class: "form-control input-lg", placeholder: "dd-mm-yyyy", id:"datePicker" %>
+            <%= f.date_field :eventDate, class: "form-control input-lg",placeholder: "dd-mm-yyyy", id:"datePicker" %>
           </div>
         <div class="form-group">
         <label>Time commence</label>
           
-            <%= f.time_field :eventTime, class: "form-control input-lg", placeholder: "time: hh:mm" %>
+            <%= f.time_field :eventTime, class: "form-control input-lg",placeholder: "time: hh:mm" %>
           </div>
         
       
@@ -24,17 +26,20 @@
 
 
       <div class="form-group">
+                <%=f.label :Venue %>
+
         <%= f.text_field :venue, class: 'form-control input-lg', placeholder: 'Venue' %>
       </div>
       <div class="form-group ">
       	         
+               <label> Event description</label>
 
-        <%= f.text_area :description, rows:'7', class: 'form-control input-lg ', placeholder: 'Description'%>
+        <%= f.text_area :description, rows:'7', maxlength: 1000, class: 'form-control input-lg ', placeholder: 'Description (maximum 1000 char)'%>
       </div>
       <div class="form-group">
         <label >Upload picture</label>
         <%=f.fields_for :event_pictures do |p|%>
-        <%= p.file_field :image, class: 'form-control input-lg'%>
+        <%= p.file_field :image, :disabled => true,class: 'form-control input-lg'%>
         <%= p.hidden_field :event_id,:value=> @event.id %>
         <%end%>
         

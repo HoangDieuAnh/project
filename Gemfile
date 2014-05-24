@@ -41,5 +41,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 # in production environments by default.
 gem "paperclip", "~> 3.5.3"
 gem "nested_form"
-
+gem 'will_paginate', '~> 3.0'
 gem 'bcrypt', :require => 'bcrypt'

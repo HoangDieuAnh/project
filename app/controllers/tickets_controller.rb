@@ -40,15 +40,14 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1
   # PATCH/PUT /tickets/1.json
   def update
-    respond_to do |format|
+      
       if @ticket.update(ticket_params)
-        format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
-        format.json { render :show, status: :ok, location: @ticket }
+        redirect_to :controller=>"events", :action=> "show", :id=>@ticket.event_id
       else
-        format.html { render :edit }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+        render 'edit'
       end
-    end
+    
+    
   end
 
   # DELETE /tickets/1
@@ -64,7 +63,7 @@ class TicketsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
-      @ticket = Ticket.find(params[:id])
+      @ticket = Ticket.find_by event_id:params[:id]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

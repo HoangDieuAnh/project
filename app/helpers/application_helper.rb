@@ -3,7 +3,14 @@ def site_name
     # Change the value below between the quotes.
     "ClubBiz"
   end
-
+def find_related(t_id, user_id)
+   @reservation=Reservation.where(:ticket_id =>t_id).where(:user_id=>user_id).first
+   return @reservation.present?
+end
+    def booked(user_id, ticket_id)
+       ticket_booked=Reservation.where(:ticket_id =>ticket_id).where(:user_id=>user_id).first
+       return !ticket_booked.blank?
+  end
   def site_url
     if Rails.env.production?
       # Place your production URL in the quotes below
@@ -46,5 +53,13 @@ def site_name
     else
       return false
     end
+  end
+  def admin(user_id, society_id)
+    society=Society.find(society_id)
+    return user_id==society.user_id
+  end
+  def is_admin(id)
+    @society=Society.find_by user_id:id
+    return @society.present?
   end
 end

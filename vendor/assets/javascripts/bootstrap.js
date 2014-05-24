@@ -1983,6 +1983,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
   // ==============
 
   $(window).on('load', function () {
+
     $('[data-spy="affix"]').each(function () {
       var $spy = $(this)
       var data = $spy.data()

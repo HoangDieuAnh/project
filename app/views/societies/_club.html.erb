@@ -1,30 +1,37 @@
 <div class="form-group">
-        <%= s.text_field :name, class: "form-control input-lg", placeholder: 'Society Name' %>
+        <%=s.label "Society name" %>
+        <%= s.text_field :name, maxlength: 100,  class: "form-control input-lg", placeholder: 'Society Name' %>
       </div>
       <div class="form-group">
-        <%= s.text_field :regNum, class: "form-control input-lg", placeholder: 'Register number' %>
+                <%=s.label "Register number" %>
+
+        <%= s.text_field :regNum,maxlength: 20, class: "form-control input-lg", placeholder: 'Register number' %>
       </div>
       <div class="form-group">
-        <%= s.text_field :website, class: "form-control input-lg", placeholder: 'Website' %>
+                        <%=s.label "Website" %>
+
+        <%= s.text_field :website, maxlength: 200, class: "form-control input-lg", placeholder: 'Website' %>
       </div>
        <div class="form-group ">
-        <%= s.text_area :description, rows:'7', class: 'form-control input-lg ', placeholder: 'Description'%>
+                        <%=s.label "Discription" %>
+
+        <%= s.text_area :description, rows:'7', maxlength: 1000, class: 'form-control input-lg ', placeholder: 'Description ( max:1000 characters) '%>
       </div>
             <%if @society.user_id.nil? %>
 
       <div class="form-group">
       	<%=s.fields_for :user do |f|%>
       	<label>Admin details</label>
-        <%= f.text_field :first_name, class: "form-control input-lg", placeholder: 'First Name' %>
+        <%= f.text_field :first_name,maxlength: 70, class: "form-control input-lg", placeholder: 'First Name' %>
       </div>
       <div class="form-group">
-        <%= f.text_field :middle_name, class: "form-control input-lg", placeholder: 'Middle Name' %>
+        <%= f.text_field :middle_name,maxlength: 70, class: "form-control input-lg", placeholder: 'Middle Name' %>
       </div>
       <div class="form-group">
-        <%= f.text_field :last_name, class: "form-control input-lg", placeholder: 'Last Name' %>
+        <%= f.text_field :last_name,maxlength: 70, class: "form-control input-lg", placeholder: 'Last Name' %>
       </div>
       <div class="form-group">
-        <%= f.email_field :email, class: "form-control input-lg", placeholder: 'Email' %>
+        <%= f.email_field :email, maxlength: 100,class: "form-control input-lg", placeholder: 'Email' %>
       </div>
       <div class="form-group">
         <%= f.phone_field :phone, class: "form-control input-lg", placeholder: 'Phone' %>
@@ -33,13 +40,13 @@
         <%= f.phone_field :mobile, class: "form-control input-lg", placeholder: 'Mobile' %>
       </div>
       <div class="form-group">
-        <%= f.text_field :name, class: 'form-control input-lg', placeholder: 'Username' %>
+        <%= f.text_field :name, maxlength: 70, class: 'form-control input-lg', placeholder: 'Username' %>
       </div>
       <div class="form-group">
-        <%= f.password_field :password, class: 'form-control input-lg', placeholder: 'Password' %>
+        <%= f.password_field :password, maxlength: 50,class: 'form-control input-lg', placeholder: 'Password' %>
       </div>
       <div class="form-group">
-        <%= f.password_field :password_confirmation, class: 'form-control input-lg', placeholder: 'Confirm password' %>
+        <%= f.password_field :password_confirmation, maxlength: 50, class: 'form-control input-lg', placeholder: 'Confirm password' %>
       </div>
       <%end%>
       <%end%>

@@ -9,18 +9,25 @@ class EventsController < ApplicationController
     else
       @events = Event.all
     end
+      @events = Event.paginate(:page => params[:page], :per_page => 4)
+
   end
-  # check if user is an admin of the event or not
   
   # GET /events/1
   # GET /events/1.json
+
   def show
+    if @event.present?
+      @ticket=Ticket.find_by event_id:@event.id
+      if @ticket.present? && !@ticket.maxnumber.blank?
+        ticket_sold=Reservation.where(ticket_id:@ticket.id).sum(:amount) 
+        @available=@ticket.maxnumber-ticket_sold
+        tick_avai=[4, @available].min
+        @available_to_buy=[*1..tick_avai]
+      end
+    end
   end
 
-  # GET /events/new
-  def new
-    @event = Event.new
-  end
 
   # GET /events/1/edit
   def edit
@@ -30,27 +37,43 @@ class EventsController < ApplicationController
     @events = Event.search params[:search]
   end
 
-  # POST /events
-  # POST /events.json
-  # GET /events/new  
-def new
-    if !session[:user_id]
-        redirect_to :controller => 'users', :action => 'new'
+   
+  # check if user is an admin of the event or not
+
+  def validate 
+    if session[:user_id].present?
+      society=Society.find_by user_id:session[:user_id]
+      return society.present?
     else
+      return false
+    end
+  end
+
+  # GET /events/new
+  def new
+      if validate
+        @society=Society.find_by user_id:session[:user_id]
+        # multiple pages form, save info in session so user can come back 
+        #and see before submitting
         session[:event_params] ||= {}
         @event = Event.new(session[:event_params])
-        @event.current_step = session[:event_step]
+        @event.current_step=session[:event_step]
         @event.pictures_for_event
         @event.tickets_for_event
-    end
+       
+    else
+        render "/public/_validateError"
+     end
 
-end
-
-def create
+  end
+  # POST /events
+  # POST /events.json
+  def create
+    # store in session, support multiple pages form
     session[:event_params].deep_merge!(event_params) if event_params &&session[:event_params]
     @event = Event.new(session[:event_params])
 
-      @event.current_step = session[:event_step]
+    @event.current_step = session[:event_step]
 
       if @event.valid?
         if params[:back_button]
@@ -67,11 +90,11 @@ def create
       else
         session[:event_step] = session[:event_params] = nil
         flash[:notice] = "Order saved!"
-        render 'show'
+        redirect_to :controller =>'events', :action=>'show', :id=>@event.id
       end
-end
+  end
   
- def update
+  def update
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
@@ -97,11 +120,12 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
+      @society=Society.find(@event.society_id) if @event.present?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-        params.require(:event).permit(:title, :eventDate, :eventTime,
+        params.require(:event).permit(:title, :eventDate, :eventTime, :society_id,
         :venue, :eventType, :description, :event_pictures_attributes =>[:id,:event_id, :picturename], :tickets_attributes=>[:id,:event_id, :price, :startdate, :closedate, 
           :maxnumber, :description])
     end

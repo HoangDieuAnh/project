@@ -1,19 +1,23 @@
 class Event < ActiveRecord::Base
-    default_scope {order('updated_at DESC')}
+  default_scope {order('updated_at DESC')}
 	has_many :event_pictures, :dependent => :destroy
   has_many :tickets, :foreign_key => 'event_id', :dependent => :destroy
-		accepts_nested_attributes_for :event_pictures, :tickets
-    #accepts_nested_attributes_for :tickets, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-   validates :title, :presence => true, :length => { :in => 3..20 }
+  has_many :reservations, :through=> :tickets
+	accepts_nested_attributes_for :event_pictures, :tickets
+  #accepts_nested_attributes_for :tickets, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  validates :description, :presence => true,:length => { :in => 3..1000}
+  validates :title, :presence => true, :length => { :in => 3..70 }
   validates :eventDate, :presence => true
-   validates :venue, :presence => true, :length => { :in => 3..20 }
+  validates :venue, :presence => true, :length => { :in => 3..50 }
 	   #password_confirmation attr
-
-    attr_writer :current_step
+  # support multiple pages form when create an event, credit to http://railscasts.com/ 
+  attr_writer :current_step
   def current_step
     @current_step || steps.first
   end
-
+  def first
+    @current_step=steps.first
+  end
 
   def steps
     %w[ pict ticket]
@@ -42,14 +46,14 @@ class Event < ActiveRecord::Base
     end
   end
 
-
-    def pictures_for_event
-        3.times { self.event_pictures.build }
-       
-     end
-     def tickets_for_event
-        self.tickets.build
-     end
+  # create a space for pictures' attributes
+  def pictures_for_event
+    3.times { self.event_pictures.build }
+  # create a space for tickets' attributes
+  end
+  def tickets_for_event
+    self.tickets.build
+  end
 
 def self.search(search)
   if search
@@ -59,14 +63,17 @@ def self.search(search)
     Event.all()
   end
 end
-
- def admin(user_id)
-    if user_id.nil?
-      societyID=Society.find_by user_id:user_id 
-      if societyID.present?
-        return societyID.id==self.society_id
-      end
-    return nil
+# check if user is an admin of the event or not, return false if not
+def admin(user_id)
+  if !user_id.nil?
+    society=Society.find_by user_id:user_id 
+    if !society.nil? 
+      return society.id==self.society_id
+    end
+    
+  else
+    return false
     end
   end 
+  
 end

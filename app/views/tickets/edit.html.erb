@@ -1,6 +1,63 @@
-<h1>Editing ticket</h1>
+ <div class="row">
 
-<%= render 'form' %>
+            <div class="col-lg-12">
+                <h1 class="page-header">Event update
+                    
+                </h1>
+            </div>
 
-<%= link_to 'Show', @ticket %> |
-<%= link_to 'Back', tickets_path %>
+        </div>
+
+<div class="container">
+
+<div class="row">
+
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      <%= form_for @ticket,  role:'form' do |p| %>
+      <h2><small>It's just for you</small></h2>
+      <hr class="colorgraph">
+       <div class="form-group">
+              <div class="form-group">
+        <label>Ticket details</label>
+        <%= p.number_field :price, class: 'form-control input-lg', placeholder:"Price"%>
+</div>
+      <div class="form-group">
+        <label>Tickets available</label>
+
+        <%= p.number_field :maxnumber, class: 'form-control input-lg', placeholder:"Number of tickets available"%>
+</div>
+      <div class="form-group">
+
+        <label>Sale starts on: <label>
+        
+        <%= p.date_field :startdate, class: 'form-control input-lg'%>
+        </div>
+              <div class="form-group">
+
+        <label>And ends on: <label>
+        <%= p.date_field :closedate, class: 'form-control input-lg'%>
+</div>
+              <div class="form-group">
+        <label>Ticket description</label>
+
+        <%= p.text_area :description, rows:'7', maxlength: 500, class: 'form-control input-lg', placeholder:"Description (maximum 500 characters)"%>
+</div>
+  
+        
+        </div>
+      <p><%= p.submit "Update",class: "btn btn-primary btn-block btn-lg"%></p>
+      <hr class="colorgraph">
+      
+    <%end%>
+    <% if @ticket && @ticket.errors.any? %>
+    <ul class="Signup_Errors">
+    <% for message_error in @ticket.errors.full_messages %>
+      <li>* <%= message_error %></li>
+    <% end %>
+    </ul>
+  <%end%>
+  </div>
+</div>
+
+</div>
+

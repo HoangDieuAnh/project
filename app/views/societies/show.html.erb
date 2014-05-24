@@ -1,24 +1,52 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, @society.name) %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @society.name %>
-</p>
+       <div class="jumbotron">
+                 <div class="row">
 
-<p>
-  <strong>Regnum:</strong>
-  <%= @society.regNum %>
-</p>
+            <div class="col-md-6">
 
-<p>
-  <strong>Website:</strong>
-  <%= @society.website %>
-</p>
+                <img class="img-responsive" src="/data/clubImage/club2.jpg">
+            </div>
+            <div class="col-md-6">
+                <h2 class='text-primary'><strong>Welcome to <%=@society.name%></strong></h2>
+                <hr class="colorgraph">
+                <h3><small>This club is affiliated by UMSU</small></h3>
+                    <p><%=@society.description%></p>
+                    <p class="text-primary">Website: <%=@society.website%></p>
+                 <%if session[:user_id]!=nil && admin(session[:user_id], @society.id)  %>
+                 <%= link_to 'Edit', edit_society_path(@society), class: 'btn btn-primary'  %>
+                <%= link_to 'New Event', new_event_path, class: 'btn btn-success'  %>
+                <%end%>  
+               
+            </div>
 
-<p>
-  <strong>Approved:</strong>
-  <%= @society.approved %>
-</p>
+        </div> </div>
+        <h2 class='text-success'><strong> Our recent activities</strong></h2>
+        <hr class="colorgraph">
+        <%if @events.present?%>
+        
+<div class="row">
+    <%@events.each do |e|%>
 
-<%= link_to 'Edit', edit_society_path(@society) %> |
-<%= link_to 'Back', societies_path %>
+        <div class="col-lg-4">
+          <div class="jumbotron">
+          <h2><%=e.title%></h2>
+          <p class="text-primary">Date:<%=e.eventDate%></p>
+          <p class="text-primary">Type:<%=e.eventType%></p>
+          <p><%=truncate(e.description, length: 200){link_to "Continue", event_path(:id=>e.id)}%></p>
+          <p><%=link_to "more", event_path(:id=>e.id), class:"btn btn-success" ,role:"button"%></p>
+        </div>
+        </div>
+        <%end%>
+      </div>
+      <%end%>
+    
+
+
+
+
+
+
+
+
+          

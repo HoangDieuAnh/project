@@ -23,6 +23,7 @@ class RelationshipsController < ApplicationController
 
   # POST /relationships
   # POST /relationships.json
+  #create offcie beares entries
   def create
     @relationship = Relationship.new(relationship_params)
 

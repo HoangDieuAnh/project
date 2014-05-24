@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     authorized_user = User.authenticate(params[:session][:username_or_email], params[:session][:password])
     if authorized_user
       session[:user_id] = authorized_user.id
- 
+
       @current_user= authorized_user
       redirect_to(:action => 'home', :controller =>'pages')
     else
@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     end
   end
   def logout
-  session[:user_id] = nil
+  reset_session
   redirect_to :action => 'home', :controller => 'pages'
   end
 end

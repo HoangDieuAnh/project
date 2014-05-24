@@ -63,12 +63,19 @@
           <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Home", root_path %></li>
           <li class="<%= 'active' if current_page?(events_path) %>"><%= link_to "Event", events_path %></li>
           <li class="<%= 'active' if current_page?(societies_path) %>"><%= link_to "Society", societies_path %></li>
+          <%if authenticate_user%>
+          <li class="<%= 'active' if current_page?(user_path(@current_user)) %>"><%= link_to "My account", controller:"users",
+          action: "show", id:@current_user.id%></li>
+          <%if is_admin(session[:user_id])%>
+          <li class="<%= 'active' if current_page?(society_path(@society)) %>"><%= link_to "My Society", society_path(@society)%></li>
+          <%end%>
+          <%end%>
         </ul>
       </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
   </div><!-- /.navbar -->
-  
-<div class="container">
+   
+<div class="container well1" >
 
 
 
@@ -81,8 +88,7 @@
       </p>
   <%= yield %>
   </div><!--/span-->
-  
-          <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+   <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
 
             
 
@@ -104,6 +110,11 @@
   <% end %>
         
           </div><!--/span-->
+         
+
+
+
+
         </div><!--/row-->
 
   <hr>
@@ -120,6 +131,8 @@
         <%= link_to "Terms", terms_path %></li>
       </p>
     </footer>
-  </div> <!-- /container -->
+  </div>
+   <!-- /container -->
+
 </body>
 </html>

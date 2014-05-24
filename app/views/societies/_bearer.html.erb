@@ -1,19 +1,21 @@
-      <%=s.fields_for :relationships, @society.get_relationships do |r|%>
+      <%if @society.relationships.blank?%>
+      <%@society.get_relationships%><%end%>
+      <%=s.fields_for :relationships do |r|%>
       <div class="form-group">
       	<label> Office Bearer details</label>
-      <%= r.text_field :position, class: "form-control input-lg", placeholder: 'Position' %>
+      <%= r.text_field :position,maxlength: 200, class: "form-control input-lg", placeholder: 'Position' %>
       </div>
       <div class="form-group">
-      <%= r.text_field :firstname, class: "form-control input-lg", placeholder: 'First Name' %>
+      <%= r.text_field :firstname, maxlength: 100, class: "form-control input-lg", placeholder: 'First Name' %>
       </div>
       <div class="form-group">
-        <%= r.text_field :middlename, class: "form-control input-lg", placeholder: 'Middle Name' %>
+        <%= r.text_field :middlename, maxlength: 100, class: "form-control input-lg", placeholder: 'Middle Name' %>
       </div>
       <div class="form-group">
-        <%= r.text_field :lastname, class: "form-control input-lg", placeholder: 'Last Name' %>
+        <%= r.text_field :lastname, maxlength: 100, class: "form-control input-lg", placeholder: 'Last Name' %>
       </div>
       <div class="form-group">
-        <%= r.email_field :email, class: "form-control input-lg", placeholder: 'University Email' %>
+        <%= r.email_field :email, maxlength: 100, class: "form-control input-lg", placeholder: 'University Email' %>
       </div>
       <div class="form-group">
         <%= r.phone_field :phone, class: "form-control input-lg", placeholder: 'Phone' %>

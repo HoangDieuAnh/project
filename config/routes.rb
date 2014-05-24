@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :relationships
 
   resources :events
@@ -6,7 +7,7 @@ Rails.application.routes.draw do
   resources :societies
 
   resources :users
-
+  resources :tickets
   #get 'sessions/login,'
 
   #get 'sessions/home,'
@@ -15,16 +16,18 @@ Rails.application.routes.draw do
 
   #get 'sessions/setting'
     
-
+    match '/reservations', controller: 'reservations', action: 'destroy', via: :get
     match '/about' , controller: 'pages', action: 'about', via: :get
     match '/contact' , controller: 'pages', action: 'contact', via: :get
     match '/privacy' , controller: 'pages', action: 'privacy', via: :get
     match '/terms' , controller: 'pages', action: 'terms', via: :get
-
+    match'/findEvents', controller:'societies', action: 'findEvents', via: :get
     match '/login_attempt', controller: 'sessions', action: 'login_attempt', via: :post
-    match '/new', controller: 'user', action: 'new', via: [:get, :post]
-    match '/create', controller: 'user', action: 'create', via: :post
-    match '/edit', controller: 'user', action: 'edit', via: [:get, :post]
+    match '/new', controller: 'users', action: 'new', via: [:get]
+    match '/:id', controller: 'users', action: 'update', via: [:post]
+
+    match '/create', controller: 'users', action: 'create', via: :post
+    match '/edit', controller: 'users', action: 'edit', via: [:get]
 
     match '/search', controller:'query', action:'index', via: [:post, :get]
 
@@ -36,7 +39,8 @@ Rails.application.routes.draw do
 
     #post '/login_attempt'     => 'high_voltage/pages#show', id: 'home'
     get '/home', to: redirect('/')
-    
+      resources :reservations
+
   root :to => 'pages#home'
 
   # The priority is based upon order of creation: first created -> highest priority.

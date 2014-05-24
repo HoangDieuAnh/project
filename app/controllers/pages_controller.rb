@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
-  before_filter :authenticate_user, :only =>[:home]
   def home
-    
+        render layout: "home"
+
   end
   def about
     

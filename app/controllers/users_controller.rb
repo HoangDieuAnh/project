@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-#before_filter :save_login_state, :only => [:new, :create]
+before_filter :set_user, :only => [:show, :edit, :update]
 def new
     @user = User.new 
     render 'new'
@@ -10,7 +10,7 @@ def create
     flash[:notice] = "You signed up successfully"
     flash[:color]= "valid"
     session[:user_id]=@user.id
-    redirect_to :controller=> 'pages', :action => 'home'
+    redirect_to :controller=> 'users', :action => 'show', :id=>@user.id
   else
     flash[:notice] = "Form is invalid"
     flash[:color]= "invalid"
@@ -19,26 +19,40 @@ def create
 end
 
 def show
+  if @user.present?
+    @Allevents=Event.all
+    @events=Event.joins(:tickets => :reservations).where(:reservations => {:user_id => @user.id})
+    @Allevents = Event.paginate(:page => params[:page], :per_page => 4)
+
+    
+  end
+
 end
 
 def edit
 end
 
 def update
-  respond_to do |format|
-    @user = User.find params[:id]
+  
     if @user.update(user_params)
-      format.html { redirect_to :edit, notice: 'Account details successfully updated.' }
-      format.json { render :edit }
+      flash[:notice] = "You updated successfully"
+      flash[:color]= "valid"
+      redirect_to :controller=>"users", :action=>"show", :id=>@user.id
     else
-      format.html { redirect_to :edit }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
+      flash[:notice] = "Sorry, something goes wrong"
+      flash[:color]= "invalid"
+      render 'edit'
+      
     end
-  end
+ 
 end
-
+private 
 def user_params
-  params.require(:user).permit(:name, :first_name, :middle_name, :last_name, :email, :password, :salt, :password_confirmation)
+  params.require(:user).permit(:name, :first_name, :middle_name, :last_name, :email, :password, :salt, :password_confirmation, :phone, :mobile)
+end
+private
+def set_user
+  @user=User.find(params[:id])
 end
 
 end
