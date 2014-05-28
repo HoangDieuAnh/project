@@ -24,9 +24,9 @@ Rails.application.routes.draw do
     match'/findEvents', controller:'societies', action: 'findEvents', via: :get
     match '/login_attempt', controller: 'sessions', action: 'login_attempt', via: :post
     match '/new', controller: 'users', action: 'new', via: [:get]
-    match '/:id', controller: 'users', action: 'update', via: [:post]
+    #match '/:id', controller: 'users', action: 'update', via: [:post]
 
-    match '/create', controller: 'users', action: 'create', via: :post
+    #match '/create', controller: 'users', action: 'create', via: :post
     match '/edit', controller: 'users', action: 'edit', via: [:get]
 
     match '/search', controller:'query', action:'index', via: [:post, :get]

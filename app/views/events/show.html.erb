@@ -48,12 +48,7 @@
                        <%end%>
 
                           <hr class="colorgraph">
-                          <% if flash[:notice] %>
-                        <div id="notice">
-                          <div class="alert alert-temp fade in alert-error">
-                          <%= flash[:notice] %>
-                        </div></div>
-                        <% end %>
+                        
                       <%if session[:user_id].nil?%>
                           <p class="text-danger">** Please log in to reserve</p>
 
@@ -65,7 +60,7 @@
 
                           <%=f.label "Number of tickets  "%>
                          <%=f.select :amount, @available_to_buy.map { |value| [ value, value ] },  class: 'form-control' %>
-                          <%= f.hidden_field :ticket_id,:value=> @ticket.id %>
+                          <%= f.hidden_field :ticket_id, :value=> @ticket.id %>
                          <%= f.hidden_field :user_id,:value=> session[:user_id]%>
                         
                          <p><%= f.submit "Reserve",class: "btn btn-primary btn-block btn-lg"%></p>
